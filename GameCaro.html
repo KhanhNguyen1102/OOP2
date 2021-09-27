@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #game-board {
+            position: relative;
+            margin-top: 50px;
+        }
+
+        .cell {
+            border: solid 1px green;
+            text-align: center;
+            font-size: 20pt;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<button onclick="start()">Start</button>
+<div id="game-board">
+</div>
+<script>
+    let valueEmpty = 1;
+    let valueX = 2;
+    let valueO = 3;
+    let defaultRow = 20;
+    let defaultCol = 20;
+    let defaultCellSize = 20;
+
+    class Cell {
+        constructor(x, y) {
+            this.x = x;
+            this.y = y;
+            this.value = valueEmpty;
+        }
+
+        getHtml() {
+            let top = this.x * defaultCellSize;
+            let left = this.y * defaultCellSize;
+            let cellHtml = '<div id="cell-' + this.x + '-' + this.y + '" onclick="play(' + this.x + ',' + this.y + ')" class="cell" style="position: absolute; width: ' +
+                defaultCellSize + 'px; height:' +
+                defaultCellSize + 'px; left:' +
+                left + 'px; top:' +
+                top + 'px; line-height: ' +
+                (defaultCellSize - 3) + 'px;"></div>';
+            return cellHtml;
+        }
+
+        draw() {
+            let cell = document.getElementById("cell-" + this.x + "-" + this.y)
+            switch (this.value) {
+                case valueX:
+                    cell.innerHTML = "x";
+                    break;
+                case valueO:
+                    cell.innerHTML = "o";
+                    break;
+                default:
+                    cell.innerHTML = "";
+                    break;
+            }
+        }
+    }
+
+    class GameBoard {
+        rows;
+        cols;
+        idHtml;
+        turn;
+        cells;
+        isOver;
+
+        constructor(rows, cols, idHtml) {
+            this.rows = rows;
+            this.cols = cols;
+            this.idHtml = idHtml;
+            this.turn = valueX;
+            this.cells = [];
+            this.isOver = false;
+        }
+
+        draw() {
+            let gameBoardDiv = document.getElementById(this.idHtml);
+            gameBoardDiv.innerHTML = "";
+            for (let i = 0; i < this.rows; i++) {
+                let row = [];
+                this.cells.push(row);
+                for (let j = 0; j < this.cols; j++) {
+                    let cell = new Cell(i, j);
+                    row.push(cell);
+                    gameBoardDiv.innerHTML += cell.getHtml();
+
+                }
+            }
+        }
+
+        play(x, y) {
+            if (this.isOver) {
+                return;
+            }
+            let cell = this.cells[x][y];
+            if (cell.value === valueEmpty) {
+                cell.value = this.turn;
+                cell.draw();
+                this.check();
+                if (this.turn === valueX) {
+                    this.turn = valueO;
+                } else {
+                    this.turn = valueX;
+                }
+            } else {
+                alert("Cell is not empty");
+            }
+        }
+
+        check() {
+            for (let i = 0; i < this.rows; i++) {
+                for (let j = 0; j < this.cols -4; j++) {
+                    let win1 = (this.cells[i][j + 1].value === this.cells[i][j].value) && (this.cells[i][j + 2].value === this.cells[i][j].value) && (this.cells[i][j + 3].value === this.cells[i][j].value) && (this.cells[i][j + 4].value === this.cells[i][j].value)
+                    if (win1){
+                        if (this.cells[i][j].value === valueX){
+                            alert("X win");
+                            this.isOver = true;
+                        }
+                        if (this.cells[i][j].value === valueO){
+                            alert("O win");
+                            this.isOver = true;
+                        }
+                    }
+                }
+            }
+            for (let i = 0; i < this.rows -4; i++) {
+                for (let j = 0; j < this.cols; j++) {
+                    let win2 = (this.cells[i+1][j].value === this.cells[i][j].value) && (this.cells[i+2][j].value === this.cells[i][j].value) && (this.cells[i+3][j].value === this.cells[i][j].value) && (this.cells[i+4][j].value === this.cells[i][j].value)
+                    if (win2) {
+                        if (this.cells[i][j].value === valueX){
+                            alert("X win");
+                            this.isOver = true;
+                        }
+                        if (this.cells[i][j].value === valueO){
+                            alert("O win");
+                            this.isOver = true;
+                        }
+                    }
+                }
+            }
+            for (let i = 0; i < this.rows -4; i++) {
+                for (let j = 0; j < this.cols -4; j++) {
+                    let win3 = (this.cells[i+1][j+1].value === this.cells[i][j].value) && (this.cells[i+2][j+2].value === this.cells[i][j].value) && (this.cells[i+3][j+3].value === this.cells[i][j].value) && (this.cells[i+4][j+4].value === this.cells[i][j].value)
+                    if (win3) {
+                        if (this.cells[i][j].value === valueX){
+                            alert("X win");
+                            this.isOver = true;
+                        }
+                        if (this.cells[i][j].value === valueO){
+                            alert("O win");
+                            this.isOver = true;
+                        }
+                    }
+                }
+            }
+            for (let i = this.rows -1; i > 3 ; i--) {
+                for (let j = 0; j < 16; j++) {
+                    let win4 = (this.cells[i-1][j+1].value === this.cells[i][j].value) && (this.cells[i-2][j+2].value === this.cells[i][j].value) && (this.cells[i-3][j+3].value === this.cells[i][j].value) && (this.cells[i-4][j+4].value === this.cells[i][j].value)
+                    if (win4) {
+                        if (this.cells[i][j].value === valueX){
+                            alert("X win");
+                            this.isOver = true;
+                        }
+                        if (this.cells[i][j].value === valueO){
+                            alert("O win");
+                            this.isOver = true;
+                        }
+                    }
+                }
+            }
+
+        }
+
+    }
+
+    function play(x, y) {
+        gameBoard.play(x, y);
+    }
+
+    function start() {
+        gameBoard = new GameBoard(defaultRow, defaultCol, "game-board");
+        gameBoard.draw();
+    }
+
+    let gameBoard;
+    start();
+</script>
+</body>
+</html>
