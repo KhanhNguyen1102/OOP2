@@ -1,6 +1,4 @@
-/**
- * Created by nhatnk on 4/26/17.
- */
+
 
 function Hero(image, top, left, size,speed){
     this.image = image;
@@ -53,7 +51,7 @@ function Hero(image, top, left, size,speed){
 
 }
 
-var hero = new Hero('aquarius.jpg', 20, 30, 200, 30);
+let hero = new Hero('aquarius.jpg', 20, 30, 200, 30);
 
 // Auto di chuyển xung quanh màn hình
 // function start(){
