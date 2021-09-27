@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    class Rat {
+        name ;
+        weight;
+        speed;
+        isAlive;
+        constructor(name,weight,speed,isAlive) {
+            this.name =name;
+            this.weight =weight;
+            this.speed = speed;
+            this.isAlive = isAlive;
+        }
+        sound(){
+            alert("chít chít");
+        }
+    }
+    class Cat{
+        name;
+        weight;
+        speed;
+        maxSpeed;
+        mouseInHand;
+        constructor(name,weight,speed,maxSpeed) {
+            this.name = name;
+            this.weight=weight;
+            this.speed = speed;
+            this.maxSpeed =maxSpeed ;
+
+        }
+        sound(){
+            alert("meo meo");
+        }
+        run(){
+            this.speed = this.maxSpeed ;
+        }
+        catch(mouse) {
+            if (mouse.isAlive){
+                this.run();
+                this.mouseInHand = mouse;
+            }else {
+                this.mouseInHand = mouse;
+            }
+        }
+        eat(){
+            if(this.mouseInHand.isAlive){
+                this.weight+= this.mouseInHand.weight;
+            } else if(this.mouseInHand.isAlive === false) {
+                alert("Mèo ko ăn chuột chết");
+            }
+        }
+    }
+    let tom = new Cat("Tôm",5,10,15);
+    let jerry = new Rat("Jerry",1,12,true)
+    tom.catch(jerry);
+    tom.eat();
+    console.log(tom.weight);
+</script>
+</body>
+</html>
