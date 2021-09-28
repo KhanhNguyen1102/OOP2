@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+  class Tivi {
+    channel;
+    volume;
+    isOn;
+    constructor(channel,volume,isOn) {
+      this.channel =channel;
+      this.volume =volume;
+      this.isOn = isOn;
+    }
+    setChannel(channel){
+      this.channel = channel;
+    }
+    setVolume(volume){
+      this.volume = volume;
+    }
+  }
+  class Remote{
+    tivi;
+    constructor(tivi) {
+      this.tivi = tivi;
+    }
+    changeChannel(channel){
+      if(this.tivi.isOn === true) {
+        this.tivi.setChannel(channel);
+      }
+    }
+    changeVolume(volume){
+      if(this.tivi.isOn === true){
+      this.tivi.volume+= volume;
+      }
+    }
+    turnOn(){
+      if(this.tivi.isOn === false){
+        this.tivi.isOn = true;
+      }
+    }
+    turnOff(){
+      if(this.tivi.isOn === true ){
+        this.tivi.isOn = false;
+      }
+    }
+  }
+  let lg = new Tivi(1,10,false)
+  let remote = new Remote(lg);
+  remote.turnOn();
+  lg.setChannel(7);
+  remote.changeChannel(3);
+  remote.changeVolume(2);
+  remote.turnOff()
+
+</script>
+</body>
+</html>
